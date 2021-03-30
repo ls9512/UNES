@@ -1,4 +1,4 @@
-﻿namespace Aya.UNes
+﻿namespace Aya.UNES
 {
     public sealed partial class PPU : Addressable
     {   

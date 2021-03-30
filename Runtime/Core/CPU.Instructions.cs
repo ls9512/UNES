@@ -1,7 +1,7 @@
 ﻿using System;
-using static Aya.UNes.CPU.AddressingMode;
+using static Aya.UNES.CPU.AddressingMode;
 
-namespace Aya.UNes
+namespace Aya.UNES
 {
     public sealed partial class CPU
     {

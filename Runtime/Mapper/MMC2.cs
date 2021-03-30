@@ -1,4 +1,4 @@
-﻿namespace Aya.UNes.Mapper
+﻿namespace Aya.UNES.Mapper
 {
     [MapperDef(Id = 9, Description = "Mike Tyson's Punch-Out!!")]
     public class MMC2 : MMC4

@@ -1,4 +1,4 @@
-﻿namespace Aya.UNes.Mapper
+﻿namespace Aya.UNES.Mapper
 {
     [MapperDef(140)]
     public class Jaleco : BaseMapper

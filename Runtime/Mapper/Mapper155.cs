@@ -1,4 +1,4 @@
-﻿namespace Aya.UNes.Mapper
+﻿namespace Aya.UNES.Mapper
 {
     [MapperDef(Id = 155, Description = "MMC1A")]
     public class Mapper155 : MMC1

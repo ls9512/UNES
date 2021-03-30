@@ -1,6 +1,6 @@
-﻿using static Aya.UNes.Cartridge.VRAMMirroringMode;
+﻿using static Aya.UNES.Cartridge.VRAMMirroringMode;
 
-namespace Aya.UNes.Mapper
+namespace Aya.UNES.Mapper
 {
     [MapperDef(1)]
     public class MMC1 : BaseMapper

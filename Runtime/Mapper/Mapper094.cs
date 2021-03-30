@@ -1,4 +1,4 @@
-﻿namespace Aya.UNes.Mapper
+﻿namespace Aya.UNES.Mapper
 {
     [MapperDef(Id = 94, Description = "Senjou no Ookami")]
     public class Mapper094 : UxROM

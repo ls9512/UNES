@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using static Aya.UNes.CPU.AddressingMode;
+using static Aya.UNES.CPU.AddressingMode;
 
-namespace Aya.UNes
+namespace Aya.UNES
 {
     sealed partial class CPU
     {

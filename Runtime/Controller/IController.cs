@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Aya.UNes.Controller
+namespace Aya.UNES.Controller
 {
     public interface IController
     {

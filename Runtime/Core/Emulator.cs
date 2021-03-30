@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Aya.UNes.Controller;
-using Aya.UNes.Mapper;
+using Aya.UNES.Controller;
+using Aya.UNES.Mapper;
 
-namespace Aya.UNes
+namespace Aya.UNES
 {
     public class Emulator
     {
@@ -39,28 +39,6 @@ namespace Aya.UNes
             Controller = controller;
 
             // Load();
-        }
-
-        public void Save(string path)
-        {
-            using (var fs = new FileStream(path + ".sav", FileMode.Create, FileAccess.Write))
-            {
-                Mapper.Save(fs);
-            }
-        }
-
-        public void Load(string path)
-        {
-            var sav = path + ".sav";
-            if (!File.Exists(sav))
-            {
-                return;
-            }
-
-            using (var fs = new FileStream(sav, FileMode.Open, FileAccess.Read))
-            {
-                Mapper.Load(fs);
-            }
         }
     }
 }

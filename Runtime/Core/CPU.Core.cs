@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Aya.UNes
+namespace Aya.UNES
 {
     sealed partial class CPU
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace Aya.UNes
+namespace Aya.UNES
 {
     public static class Utility
     {

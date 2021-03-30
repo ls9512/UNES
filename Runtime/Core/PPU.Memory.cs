@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
-namespace Aya.UNes
+namespace Aya.UNES
 {
     partial class PPU
     {

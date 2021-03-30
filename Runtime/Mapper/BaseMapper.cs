@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Aya.UNes.Mapper
+namespace Aya.UNES.Mapper
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
     public class MapperDef : Attribute
@@ -54,18 +54,14 @@ namespace Aya.UNes.Mapper
 
         }
 
-        public virtual void Save(Stream os)
+        public virtual byte[] GetSaveData()
         {
-            os.Write(_prgRAM, 0, _prgRAM.Length);
+            return _prgRAM;
         }
 
-        public virtual void Load(Stream os)
+        public virtual void LoadSaveData(byte[] saveData)
         {
-            using (var binaryReader = new BinaryReader(os))
-            {
-                var ram = binaryReader.ReadBytes((int)os.Length);
-                Array.Copy(ram, _prgRAM, ram.Length);
-            }
+            Array.Copy(saveData, _prgRAM, saveData.Length);
         }
     }
 }

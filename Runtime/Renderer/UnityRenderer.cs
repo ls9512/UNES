@@ -1,32 +1,46 @@
 ﻿using System.Runtime.InteropServices;
 using UnityEngine;
 
-namespace Aya.UNes.Renderer
+namespace Aya.UNES.Renderer
 {
     public class UnityRenderer : IRenderer
     {
-        public UNes UNes;
+        public UNESBehaviour UnesBehaviour;
         public RenderTexture RenderTexture;
 
-        public string RendererName => "Unity";
+        public string Name => "Unity";
 
         private Texture2D _drawTexture;
         private Color[] _pixelCache;
 
-        public void Draw()
+        private Texture2D _clearTexture;
+
+        public void Init(UNESBehaviour nes)
         {
-            if (RenderTexture.filterMode != UNes.FilterMode)
+            UnesBehaviour = nes;
+            RenderTexture = nes.RenderTexture;
+            _drawTexture = new Texture2D(UNESBehaviour.GameWidth, UNESBehaviour.GameHeight);
+            _pixelCache = new Color[UNESBehaviour.GameWidth * UNESBehaviour.GameHeight];
+
+            _clearTexture = new Texture2D(1, 1);
+            _clearTexture.SetPixel(0, 0, Color.clear);
+            _clearTexture.Apply();
+        }
+
+        public void HandleRender()
+        {
+            if (RenderTexture.filterMode != UnesBehaviour.FilterMode)
             {
-                RenderTexture.filterMode = UNes.FilterMode;
+                RenderTexture.filterMode = UnesBehaviour.FilterMode;
             }
 
-            for (var y = 0; y < UNes.GameHeight; y++)
+            for (var y = 0; y < UNESBehaviour.GameHeight; y++)
             {
-                for (var x = 0; x < UNes.GameWidth; x++)
+                for (var x = 0; x < UNESBehaviour.GameWidth; x++)
                 {
-                    var rawIndex = UNes.GameWidth * y + x;
-                    var color = GetColor(UNes.RawBitmap[rawIndex]);
-                    var texIndex = UNes.GameWidth * (UNes.GameHeight - y - 1) + x;
+                    var rawIndex = UNESBehaviour.GameWidth * y + x;
+                    var color = GetColor(UnesBehaviour.RawBitmap[rawIndex]);
+                    var texIndex = UNESBehaviour.GameWidth * (UNESBehaviour.GameHeight - y - 1) + x;
                     _pixelCache[texIndex] = color;
                 }
             }
@@ -48,17 +62,9 @@ namespace Aya.UNes.Renderer
             return color;
         }
 
-        public void InitRendering(UNes nes)
+        public void End()
         {
-            UNes = nes;
-            RenderTexture = nes.RenderTexture;
-            _drawTexture = new Texture2D(UNes.GameWidth, UNes.GameHeight);
-            _pixelCache = new Color[UNes.GameWidth * UNes.GameHeight];
-        }
-
-        public void EndRendering()
-        {
-            
+            Graphics.Blit(_clearTexture, RenderTexture);
         }
     }
 }

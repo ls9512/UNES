@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace Aya.UNes
+namespace Aya.UNES
 {
     public abstract class Addressable
     {

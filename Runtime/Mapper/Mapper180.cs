@@ -1,4 +1,4 @@
-﻿namespace Aya.UNes.Mapper
+﻿namespace Aya.UNES.Mapper
 {
     // Mapper used strictly for Crazy Climber; logic is slighly different
     [MapperDef(Id = 180, Description = "Crazy Climber")]

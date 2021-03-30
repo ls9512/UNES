@@ -1,13 +1,13 @@
-﻿namespace Aya.UNes.Renderer
+﻿namespace Aya.UNES.Renderer
 {
     public interface IRenderer
     {
-       string RendererName { get; }
+       string Name { get; }
 
-       void Draw();
+       void HandleRender();
 
-       void InitRendering(UNes nes);
+       void Init(UNESBehaviour nes);
 
-       void EndRendering();
+       void End();
     }
 }

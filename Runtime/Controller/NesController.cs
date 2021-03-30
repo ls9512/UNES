@@ -1,29 +1,41 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Aya.UNES.Input;
 
-namespace Aya.UNes.Controller
+namespace Aya.UNES.Controller
 {
     public class NesController : IController
     {
+        private readonly UNESBehaviour _nes;
         private int _data;
         private int _serialData;
         private bool _strobing;
 
         public bool Debug;
+
+        public KeyConfig Config => _nes.KeyConfig;
+
         // bit:   	 7     6     5     4     3     2     1     0
         // button:	 A B  Select Start  Up Down  Left 
 
-        private readonly Dictionary<KeyCode, int> _keyMapping = new Dictionary<KeyCode, int>
+        private readonly Dictionary<KeyCode, int> _keyMapping;
+
+        public NesController(UNESBehaviour nse)
         {
-            {KeyCode.A, 7},
-            {KeyCode.S, 6},
-            {KeyCode.RightShift, 5},
-            {KeyCode.Return, 4},
-            {KeyCode.UpArrow, 3},
-            {KeyCode.DownArrow, 2},
-            {KeyCode.LeftArrow, 1},
-            {KeyCode.RightArrow, 0},
-        };
+            _nes = nse;
+
+            _keyMapping = new Dictionary<KeyCode, int>
+            {
+                {Config.A, 7},
+                {Config.B, 6},
+                {Config.Select, 5},
+                {Config.Start, 4},
+                {Config.Up, 3},
+                {Config.Down, 2},
+                {Config.Left, 1},
+                {Config.Right, 0},
+            };
+        }
 
         public void Strobe(bool on)
         {
@@ -45,7 +57,7 @@ namespace Aya.UNes.Controller
 
         public void PressKey(KeyCode keyCode)
         {
-            if (keyCode == KeyCode.P)
+            if (keyCode == Config.Debug)
             {
                 Debug ^= true;
             }
