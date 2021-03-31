@@ -65,6 +65,7 @@ UNES.BootRom(bytes);
 |Point|纹理像素近距离变得块状。|
 |Bilinear|双线性双线性滤波-将纹理样本平均。|
 |Trilinear|三线性三线性过滤-对纹理样本进行平均，并在mipmap级别之间进行混合。|
+
 详细解释可参考 [FilterMode](https://docs.unity3d.com/ScriptReference/FilterMode.html)
 
 ###  3.2. <a name='LogicThread'></a>Logic Thread
