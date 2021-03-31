@@ -15,7 +15,7 @@ namespace Aya.UNES
         public const int GameWidth = 256;
         public const int GameHeight = 240;
         public FilterMode FilterMode = FilterMode.Point;
-        public bool RenderThread = true;
+        public bool LogicThread = true;
 
         [Header("Input")] 
         public KeyConfig KeyConfig;
@@ -53,7 +53,7 @@ namespace Aya.UNES
         private void BootCartridge(byte[] romData)
         {
             _emu = new Emulator(romData, _controller);
-            if (RenderThread)
+            if (LogicThread)
             {
                 _renderThread = new Thread(() =>
                 {
@@ -161,7 +161,7 @@ namespace Aya.UNES
             if (!_rendererRunning) return;
             if (_suspended) return;
 
-            if (!RenderThread)
+            if (!LogicThread)
             {
                 _emu.PPU.ProcessFrame();
                 RawBitmap = _emu.PPU.RawBitmap;
