@@ -22,8 +22,12 @@
 	* 2.1. [Resources 加载](#Resources)
 	* 2.2. [FileStream 加载](#FileStream)
 * 3. [输入](#-1)
-* 4. [Mapper](#Mapper)
-* 5. [问题](#-1)
+* 4. [API](#API)
+	* 4.1. [Boot](#Boot)
+	* 4.2. [Save](#Save)
+	* 4.3. [Load](#Load)
+* 5. [Mapper](#Mapper)
+* 6. [问题](#-1)
 
 <!-- vscode-markdown-toc-config
 	numbering=true
@@ -32,22 +36,22 @@
 <!-- /vscode-markdown-toc -->
 
 ##  1. <a name=''></a>开始
-1.在场景中新建或选择一个 `GameObject` 并添加 `UNESBehaviour` 组件。
-2.新建一个 `RenderTexture` 用于渲染游戏画面。
-3.使用任何你想要的方式在游戏中显示 `RenderTexture` 文件。
-4.使用默认的输入方式或者按需实现自定义输入。
-5.按需实现 `*.nes` 文件的加载获取 `byte[]` 格式数据。
-6.调用 `UNESBehaviour.LoadRom(byte[] romData)` 接口启动游戏。
+* 1.在场景中新建或选择一个 `GameObject` 并添加 `UNESBehaviour` 组件。
+* 2.新建一个 `RenderTexture` 用于渲染游戏画面。
+* 3.使用任何你想要的方式在游戏中显示 `RenderTexture` 文件。
+* 4.使用默认的输入方式或者按需实现自定义输入。
+* 5.按需实现 `*.nes` 文件的加载获取 `byte[]` 格式数据。
+* 6.调用 `UNESBehaviour.Boot(byte[] romData)` 接口启动游戏。
 
 ##  2. <a name='-1'></a>加载
 ###  2.1. <a name='Resources'></a>Resources 加载
 如果需要使用 `Resources.Load()` 接口来加载ROM文件，则需要注意将 `.nes` 扩展名更改为 `.bytes`，然后使用如下方式加载：
 ``` csharp
 var bytes = Resources.Load<TextAsset>(romPath).bytes;
-UNES.LoadRom(bytes);
+UNES.BootRom(bytes);
 ```
 ###  2.2. <a name='FileStream'></a>FileStream 加载
-如果使用加载原始文件字节流的方式，直接调用 `UNESBehaviour.LoadRom(byte[] romData)` 接口即可。
+如果使用加载原始文件字节流的方式，直接调用 `UNESBehaviour.Boot(byte[] romData)` 接口即可。
 
 
 ##  3. <a name='-1'></a>输入
@@ -63,7 +67,26 @@ UNES.LoadRom(bytes);
 |A|A|
 |B|S|
 
-##  4. <a name='Mapper'></a>Mapper
+##  4. <a name='API'></a>API
+###  4.1. <a name='Boot'></a>Boot
+以任何方式获取原始ROM文件的字节数组格式以供模拟器启动：
+``` csharp
+public void Boot(byte[] romData);
+```
+
+###  4.2. <a name='Save'></a>Save
+模拟器本身只提供当前运行状态的数据，而不提供数据文件的持久化实现。需要自行实现存档数据的保存。
+``` csharp
+public byte[] GetSaveData();
+```
+
+###  4.3. <a name='Load'></a>Load
+以任何方式获取存档文件数据以供模拟器恢复游戏进度：
+``` csharp
+public void LoadSaveData(byte[] saveData)
+```
+
+##  5. <a name='Mapper'></a>Mapper
 NES 存在众多 Mapper 扩展格式，本项目实现的中已经实现部分，理论上可以支持大部分常见游戏。
 |||
 |-|-|
@@ -85,7 +108,7 @@ NES 存在众多 Mapper 扩展格式，本项目实现的中已经实现部分�
 |180|[*Crazy Climber*](http://bootgod.dyndns.org:7777/search.php?ines=180)|
 |206|[DxROM](http://bootgod.dyndns.org:7777/search.php?ines=206)|
 
-##  5. <a name='-1'></a>问题
+##  6. <a name='-1'></a>问题
 * 未实现音频 `APU` 模拟。
 * 仅实现 Unity 基础输入系统。
 * PPU 模拟部分性能较低，在中低端移动设备上帧数不稳定。

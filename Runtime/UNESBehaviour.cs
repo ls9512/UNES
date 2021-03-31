@@ -33,7 +33,7 @@ namespace Aya.UNES
         private Thread _renderThread;
         private int _activeSpeed = 1;
 
-        public void LoadRom(byte[] romData)
+        public void Boot(byte[] romData)
         {
             InitInput();
             InitRenderer();

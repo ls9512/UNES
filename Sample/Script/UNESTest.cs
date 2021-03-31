@@ -13,7 +13,7 @@ namespace Aya.Example
         {
             UNES = GetComponent<UNESBehaviour>();
             var data = Resources.Load<TextAsset>(RomFile).bytes;
-            UNES.LoadRom(data);
+            UNES.Boot(data);
         }
     }
 }
