@@ -21,13 +21,17 @@
 * 2. [加载](#-1)
 	* 2.1. [Resources 加载](#Resources)
 	* 2.2. [FileStream 加载](#FileStream)
-* 3. [输入](#-1)
-* 4. [API](#API)
-	* 4.1. [Boot](#Boot)
-	* 4.2. [Save](#Save)
-	* 4.3. [Load](#Load)
-* 5. [Mapper](#Mapper)
-* 6. [问题](#-1)
+* 3. [配置](#-1)
+	* 3.1. [Filter Mode](#FilterMode)
+	* 3.2. [Logic Thread](#LogicThread)
+	* 3.3. [Input Config](#InputConfig)
+* 4. [输入](#-1)
+* 5. [API](#API)
+	* 5.1. [Boot](#Boot)
+	* 5.2. [Save](#Save)
+	* 5.3. [Load](#Load)
+* 6. [Mapper](#Mapper)
+* 7. [问题](#-1)
 
 <!-- vscode-markdown-toc-config
 	numbering=true
@@ -53,8 +57,23 @@ UNES.BootRom(bytes);
 ###  2.2. <a name='FileStream'></a>FileStream 加载
 如果使用加载原始文件字节流的方式，直接调用 `UNESBehaviour.Boot(byte[] romData)` 接口即可。
 
+##  3. <a name='-1'></a>配置
+###  3.1. <a name='FilterMode'></a>Filter Mode
+游戏画面渲染的过滤模式：
+|模式|描述|
+|-|-|
+|Point|纹理像素近距离变得块状。|
+|Bilinear|双线性双线性滤波-将纹理样本平均。|
+|Trilinear|三线性三线性过滤-对纹理样本进行平均，并在mipmap级别之间进行混合。|
+详细解释可参考 [FilterMode](https://docs.unity3d.com/ScriptReference/FilterMode.html)
 
-##  3. <a name='-1'></a>输入
+###  3.2. <a name='LogicThread'></a>Logic Thread
+如果打开 `Logic Thread` 选项，则 `CPU` 和 `PPU` 部分的模拟计算会由子线程执行，Unity 主线程只负责读取状态数据刷新游戏画面，可显著提高帧数。
+
+###  3.3. <a name='InputConfig'></a>Input Config
+自定义原生按键所对应的键盘物理按键。
+
+##  4. <a name='-1'></a>输入
 默认配置操控方式：
 |原生按键|操作按键|
 |-|-|
@@ -67,26 +86,26 @@ UNES.BootRom(bytes);
 |A|A|
 |B|S|
 
-##  4. <a name='API'></a>API
-###  4.1. <a name='Boot'></a>Boot
+##  5. <a name='API'></a>API
+###  5.1. <a name='Boot'></a>Boot
 以任何方式获取原始ROM文件的字节数组格式以供模拟器启动：
 ``` csharp
 public void Boot(byte[] romData);
 ```
 
-###  4.2. <a name='Save'></a>Save
+###  5.2. <a name='Save'></a>Save
 模拟器本身只提供当前运行状态的数据，而不提供数据文件的持久化实现。需要自行实现存档数据的保存。
 ``` csharp
 public byte[] GetSaveData();
 ```
 
-###  4.3. <a name='Load'></a>Load
+###  5.3. <a name='Load'></a>Load
 以任何方式获取存档文件数据以供模拟器恢复游戏进度：
 ``` csharp
-public void LoadSaveData(byte[] saveData)
+public void LoadSaveData(byte[] saveData);
 ```
 
-##  5. <a name='Mapper'></a>Mapper
+##  6. <a name='Mapper'></a>Mapper
 NES 存在众多 Mapper 扩展格式，本项目实现的中已经实现部分，理论上可以支持大部分常见游戏。
 |||
 |-|-|
@@ -108,7 +127,8 @@ NES 存在众多 Mapper 扩展格式，本项目实现的中已经实现部分�
 |180|[*Crazy Climber*](http://bootgod.dyndns.org:7777/search.php?ines=180)|
 |206|[DxROM](http://bootgod.dyndns.org:7777/search.php?ines=206)|
 
-##  6. <a name='-1'></a>问题
+##  7. <a name='-1'></a>问题
 * 未实现音频 `APU` 模拟。
-* 仅实现 Unity 基础输入系统。
+* 仅实现 Unity 基础输入系统和纯键盘操作方式。
+* 未实现全部 Mapper。
 * PPU 模拟部分性能较低，在中低端移动设备上帧数不稳定。
