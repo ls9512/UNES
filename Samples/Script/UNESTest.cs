@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Aya.UNES;
 
-namespace Aya.Example
+namespace Aya.Sample
 {
     public class UNESTest : MonoBehaviour
     {
