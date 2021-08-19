@@ -5,7 +5,7 @@
 </div>
 
 
-`UNES` 是一个在 `Unity` 环境中运行 `Nintendo Entertainment System` 任天堂红白机游戏 `*.nes` 文件的模拟器插件，该项目基于 [Emulator.NES](https://github.com/Xyene/Emulator.NES) 实现，通过 `Unity` 实现跨平台。
+`UNES` is an emulator plug-in that runs `Nintendo Entertainment System` Nintendo FC Game `*.nes` files in the `Unity` environment. The project is based on [Emulator.NES](https://github.com/Xyene/Emulator.NES) to achieve cross-platform through `Unity`.
 
 
 ![license](https://img.shields.io/github/license/ls9512/UNES)
@@ -15,23 +15,24 @@
 ![last](https://img.shields.io/github/last-commit/ls9512/UNES)
 [![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
 
+[[中文文档]](README_CN.md)
 
 <!-- vscode-markdown-toc -->
-* 1. [开始](#)
-* 2. [加载](#-1)
-	* 2.1. [Resources 加载](#Resources)
-	* 2.2. [FileStream 加载](#FileStream)
-* 3. [配置](#-1)
+* 1. [Start](#Start)
+* 2. [Load](#Load)
+	* 2.1. [Resources loading](#Resourcesloading)
+	* 2.2. [FileStream loading](#FileStreamloading)
+* 3. [Configuration](#Configuration)
 	* 3.1. [Filter Mode](#FilterMode)
 	* 3.2. [Logic Thread](#LogicThread)
 	* 3.3. [Input Config](#InputConfig)
-* 4. [输入](#-1)
+* 4. [input](#input)
 * 5. [API](#API)
 	* 5.1. [Boot](#Boot)
 	* 5.2. [Save](#Save)
-	* 5.3. [Load](#Load)
+	* 5.3. [Load](#Load-1)
 * 6. [Mapper](#Mapper)
-* 7. [问题](#-1)
+* 7. [ Problem](#Problem)
 
 <!-- vscode-markdown-toc-config
 	numbering=true
@@ -39,44 +40,44 @@
 	/vscode-markdown-toc-config -->
 <!-- /vscode-markdown-toc -->
 
-##  1. <a name=''></a>开始
-* 1.在场景中新建或选择一个 `GameObject` 并添加 `UNESBehaviour` 组件。
-* 2.新建一个 `RenderTexture` 用于渲染游戏画面。
-* 3.使用任何你想要的方式在游戏中显示 `RenderTexture` 文件。
-* 4.使用默认的输入方式或者按需实现自定义输入。
-* 5.按需实现 `*.nes` 文件的加载获取 `byte[]` 格式数据。
-* 6.调用 `UNESBehaviour.Boot(byte[] romData)` 接口启动游戏。
+##  1. <a name='Start'></a>Start
+* 1. Create a new or select a `GameObject` in the scene and add the `UNESBehaviour` component.
+* 2. Create a new `RenderTexture` to render the game screen.
+* 3. Use any way you want to display the `RenderTexture` file in the game.
+* 4. Use the default input method or realize custom input on demand.
+* 5. Implement the loading of `*.nes` files on demand to obtain `byte[]` format data.
+* 6. Call the `UNESBehaviour.Boot(byte[] romData)` interface to start the game.
 
-##  2. <a name='-1'></a>加载
-###  2.1. <a name='Resources'></a>Resources 加载
-如果需要使用 `Resources.Load()` 接口来加载ROM文件，则需要注意将 `.nes` 扩展名更改为 `.bytes`，然后使用如下方式加载：
+##  2. <a name='Load'></a>Load
+###  2.1. <a name='Resourcesloading'></a>Resources loading
+If you need to use the `Resources.Load()` interface to load the ROM file, you need to pay attention to changing the `.nes` extension to `.bytes`, and then use the following method to load:
 ``` csharp
 var bytes = Resources.Load<TextAsset>(romPath).bytes;
 UNES.BootRom(bytes);
 ```
-###  2.2. <a name='FileStream'></a>FileStream 加载
-如果使用加载原始文件字节流的方式，直接调用 `UNESBehaviour.Boot(byte[] romData)` 接口即可。
+###  2.2. <a name='FileStreamloading'></a>FileStream loading
+If you use the method of loading the original file byte stream, you can directly call the `UNESBehaviour.Boot(byte[] romData)` interface.
 
-##  3. <a name='-1'></a>配置
+##  3. <a name='Configuration'></a>Configuration
 ###  3.1. <a name='FilterMode'></a>Filter Mode
-游戏画面渲染的过滤模式：
-|模式|描述|
+Filter mode of game screen rendering:
+|Mode|Description|
 |-|-|
-|Point|纹理像素近距离变得块状。|
-|Bilinear|双线性双线性滤波-将纹理样本平均。|
-|Trilinear|三线性三线性过滤-对纹理样本进行平均，并在mipmap级别之间进行混合。|
+|Point|Texture pixels become blocky at close range. |
+|Bilinear|Bilinear bilinear filtering-averages the texture samples. |
+|Trilinear|Trilinear Trilinear filtering-averages texture samples and blends between mipmap levels. |
 
-详细解释可参考 [FilterMode](https://docs.unity3d.com/ScriptReference/FilterMode.html)
+For detailed explanation, please refer to [FilterMode](https://docs.unity3d.com/ScriptReference/FilterMode.html)
 
 ###  3.2. <a name='LogicThread'></a>Logic Thread
-如果打开 `Logic Thread` 选项，则 `CPU` 和 `PPU` 部分的模拟计算会由子线程执行，Unity 主线程只负责读取状态数据刷新游戏画面，可显著提高帧数。
+If the `Logic Thread` option is turned on, the simulation calculations of the `CPU` and `PPU` parts will be executed by other thread, and the Unity main thread is only responsible for reading the status data to refresh the game screen, which can significantly increase the number of frames.
 
 ###  3.3. <a name='InputConfig'></a>Input Config
-自定义原生按键所对应的键盘物理按键。
+Customize the physical keyboard keys corresponding to the native keys.
 
-##  4. <a name='-1'></a>输入
-默认配置操控方式：
-|原生按键|操作按键|
+##  4. <a name='input'></a>input
+Default configuration control method:
+|Native buttons|Operation buttons|
 |-|-|
 |Start|Num1|
 |Select|Num2|
@@ -89,25 +90,25 @@ UNES.BootRom(bytes);
 
 ##  5. <a name='API'></a>API
 ###  5.1. <a name='Boot'></a>Boot
-以任何方式获取原始ROM文件的字节数组格式以供模拟器启动：
+Obtain the byte array format of the original ROM file in any way for the emulator to start:
 ``` csharp
 public void Boot(byte[] romData);
 ```
 
 ###  5.2. <a name='Save'></a>Save
-模拟器本身只提供当前运行状态的数据，而不提供数据文件的持久化实现。需要自行实现存档数据的保存。
+The simulator itself only provides the data of the current running state, and does not provide the persistence implementation of the data file. Need to realize the preservation of archived data by oneself.
 ``` csharp
 public byte[] GetSaveData();
 ```
 
-###  5.3. <a name='Load'></a>Load
-以任何方式获取存档文件数据以供模拟器恢复游戏进度：
+###  5.3. <a name='Load-1'></a>Load
+Obtain archive file data in any way for the emulator to restore game progress:
 ``` csharp
 public void LoadSaveData(byte[] saveData);
 ```
 
 ##  6. <a name='Mapper'></a>Mapper
-NES 存在众多 Mapper 扩展格式，本项目实现的中已经实现部分，理论上可以支持大部分常见游戏。
+There are many Mapper extension formats in NES, and the implemented part of the project implementation can theoretically support most common games.
 |||
 |-|-|
 |0|[NROM](http://bootgod.dyndns.org:7777/search.php?ines=0)|
@@ -128,8 +129,8 @@ NES 存在众多 Mapper 扩展格式，本项目实现的中已经实现部分�
 |180|[*Crazy Climber*](http://bootgod.dyndns.org:7777/search.php?ines=180)|
 |206|[DxROM](http://bootgod.dyndns.org:7777/search.php?ines=206)|
 
-##  7. <a name='-1'></a>问题
-* 未实现音频 `APU` 模拟。
-* 仅实现 Unity 基础输入系统和纯键盘操作方式。
-* 未实现全部 Mapper。
-* PPU 模拟部分性能较低，在中低端移动设备上帧数不稳定。
+##  7. <a name='Problem'></a> Problem
+* Audio `APU` simulation is not implemented.
+* Only realize Unity basic input system and pure keyboard operation mode.
+* Not all Mappers are implemented.
+* The performance of the PPU simulation part is low, and the frame number is unstable on the low-end mobile devices.
